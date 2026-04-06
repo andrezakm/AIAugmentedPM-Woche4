@@ -33,7 +33,7 @@ Oder einfach sagen: "starte den Kurs"
 | `.claude/skills/eval-writer/` | Schreibt Eval aus Spec |
 | `.claude/skills/prototype-builder/` | Baut Streamlit-App aus Spec |
 | `.claude/skills/eval-runner/` | Prüft App gegen Eval-Kriterien |
-| `.claude/agents/build-eval-agent.md` | Orchestriert spec-writer → eval-writer → prototype-builder |
+| `.claude/skills/build-eval/` | Orchestriert Spec → Eval → Prototyp als `/build-eval` |
 | `context/` | NeoEmployee-Kontext (company.md, strategy.md) |
 | `input/case1/` | Feedback Cluster Viewer — alles vorgegeben |
 | `input/case2/` | Feature Backlog Prioritizer — Brief + Daten vorgegeben |
@@ -43,4 +43,4 @@ Oder einfach sagen: "starte den Kurs"
 
 ## Modell-Empfehlung
 
-Verwende **Claude Sonnet** oder **Claude Opus**. Der build-eval-agent führt drei Skills sequenziell aus — ein stärkeres Modell liefert präzisere Specs und lauffähigeren Code.
+Verwende **Claude Sonnet** oder **Claude Opus**. `/build-eval` führt drei Schritte sequenziell aus — ein stärkeres Modell liefert präzisere Specs und lauffähigeren Code.

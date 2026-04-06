@@ -1,36 +1,50 @@
 ---
-allowed-tools: Read, Write
+allowed-tools: Read, Write, Glob
 ---
 
-> **Hinweis:** Verwende ausschließlich die eingebauten `Read`- und `Write`-Tools. Keine MCP-Tools.
+> **Hinweis:** Verwende ausschließlich die eingebauten `Read`-, `Write`- und `Glob`-Tools. Keine MCP-Tools.
 
-# Skill: Spec Writer
+# Referenz: Spec schreiben
 
-Du liest einen Feature-Brief und schreibst daraus eine strukturierte Spec.md.
+## Was eine Spec ist
+
+Eine Spec beschreibt **Was** gebaut wird — nicht Wie. Sie ist Input für den Prototype Builder und Grundlage für die Eval.
 
 ## Input
 
-Der Pfad zur brief.md wird beim Aufruf übergeben (z.B. `input/case1/brief.md`).
+- `brief.md` im Case-Verzeichnis
+- Alle Datendateien in `input/[case]/data/`
 
-## Vorgehen
+## Struktur einer Spec
 
-1. Lies die brief.md vollständig.
-2. Identifiziere: Problem, Nutzer, benötigte Daten, gewünschtes Verhalten, Constraints.
-3. Schreibe eine Spec.md mit den folgenden Abschnitten:
-   - **Zweck** — warum existiert dieses Feature? Welches Problem löst es?
-   - **Nutzer** — wer verwendet es, welches technische Niveau?
-   - **Daten-Input** — welche Datei(en) werden gelesen, in welchem Format?
-   - **UI-Komponenten** — nummerierte Liste der Elemente (Sidebar, Hauptbereich, Sonderfälle)
-   - **Constraints** — was soll explizit nicht gebaut werden?
+```
+# Spec: [Feature-Name]
+
+## Zweck
+Warum existiert dieses Feature? Welches Problem löst es?
+
+## Nutzer
+Wer verwendet es, welches technische Niveau?
+
+## Daten-Input
+Welche Datei(en) werden gelesen, in welchem Format?
+
+## UI-Komponenten
+1. [Komponente] — [Beschreibung]
+2. ...
+
+## Constraints
+- Was wird explizit nicht gebaut
+```
 
 ## Qualitätskriterien
 
-- Spec beschreibt Was, nicht Wie — keine technischen Implementierungsdetails
+- Beschreibt Was, nicht Wie — keine Implementierungsdetails
 - Jede UI-Komponente ist konkret benannt und beschrieben
+- Daten-Input benennt konkrete Felder aus den echten Datendateien
 - Constraints sind explizit aufgelistet
 - Kein Spekulieren über Dinge die nicht im Brief stehen
 
 ## Output
 
-Schreibe die Spec nach `spec.md` im gleichen Verzeichnis wie die brief.md.
-Beispiel: brief.md in `input/case2/` → Spec nach `input/case2/spec.md`.
+`input/[case]/spec.md` — im gleichen Verzeichnis wie die `brief.md`.

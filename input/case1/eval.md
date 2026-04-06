@@ -1,32 +1,25 @@
 # Eval: Feedback Cluster Viewer
 
-**Version:** 1.0
-**Datum:** März 2026
+**Datum:** 2026-04-06
 **Basis:** input/case1/spec.md
 
 ---
 
 ## Anleitung
 
-Für jeden Punkt: PASS, FAIL oder UNKLAR eintragen.
-
-- **PASS** = Kriterium erfüllt, eindeutig nachweisbar
-- **FAIL** = Kriterium nicht erfüllt
-- **UNKLAR** = nicht eindeutig aus dem Code oder Output entscheidbar (z.B. visuelles Layout, subjektive UX)
-
----
+PASS = Bedingung ist erfüllt. FAIL = nicht erfüllt. UNKLAR = nicht aus Code oder Output entscheidbar.
 
 ## Kriterien
 
-| ID | Kriterium | Wie testen | Pass-Bedingung |
-|----|-----------|------------|----------------|
-| E1 | App startet ohne Fehler | `streamlit run prototype/case1/app.py` ausführen | Kein Python-Fehler, Browser öffnet sich |
-| E2 | Alle 4 Cluster werden angezeigt | App öffnen, keinen Filter setzen | 4 Clusterkarten sichtbar |
-| E3 | Jede Karte zeigt Cluster-Name | Karten durchsehen | Jede Karte hat eine erkennbare Überschrift mit dem Cluster-Namen |
-| E4 | Jede Karte zeigt Häufigkeit | Karten durchsehen | Häufigkeitsangabe pro Karte sichtbar (z.B. "4 von 4 Quellen") |
-| E5 | Jede Karte zeigt Zusammenfassung | Karten durchsehen | Kurzer Beschreibungstext pro Cluster vorhanden |
-| E6 | Belege sind einsehbar | Auf Beleg-Bereich klicken oder scrollen | Mindestens 1 Zitat mit Quellenangabe pro Cluster sichtbar |
-| E7 | Filter nach Quelle reduziert Anzeige | "Slack" auswählen, andere Quellen abwählen | Nur Cluster mit Slack-Belegen sichtbar; Cluster ohne Slack-Beleg verschwindet |
-| E8 | Kein-Treffer-Hinweis erscheint | Filter wählen der keine Cluster trifft (z.B. nur "E-Mail" wenn kein Cluster ausschließlich E-Mail hat) | Hinweistext erscheint, keine leere Seite ohne Erklärung |
-| E9 | Anzeige der sichtbaren Cluster-Anzahl | Filter setzen | Zahl aktualisiert sich korrekt (z.B. "2 von 4 Clustern") |
-| E10 | App liest aus Datei, keine Hardcoded-Daten | Code öffnen und nach hardcodierten Cluster-Inhalten suchen | Cluster-Inhalte kommen aus `data/clusters.md`, nicht aus dem Code |
+| ID | Kriterium | Wie testen | Pass-Bedingung | Ergebnis |
+|----|-----------|------------|----------------|----------|
+| E1 | App startet fehlerfrei | `streamlit run prototype/case1/app.py` ausführen | Kein Fehler im Terminal, Browser öffnet sich | FAIL |
+| E2 | Alle 4 Cluster sichtbar (kein Filter) | App öffnen, alle Quellen ausgewählt | Genau 4 Clusterkarten im Hauptbereich sichtbar | FAIL |
+| E3 | Jede Karte zeigt Cluster-Name | Karten durchsehen | Jede Karte hat Überschrift mit dem Cluster-Namen | FAIL |
+| E4 | Jede Karte zeigt Häufigkeit | Karten durchsehen | Häufigkeitsangabe pro Karte sichtbar | FAIL |
+| E5 | Jede Karte zeigt Zusammenfassung | Karten durchsehen | Kurzer Beschreibungstext pro Cluster vorhanden | FAIL |
+| E6 | Belege aufklappbar | Auf "Belege" klicken | Bereich klappt auf und zeigt Zitate mit Quellenangabe | FAIL |
+| E7 | Quellen-Filter schränkt Anzeige ein | Nur "Slack" auswählen | Nur Cluster mit Slack-Beleg sichtbar; Cluster ohne Slack verschwinden | FAIL |
+| E8 | Zähler aktualisiert sich | Filter setzen | Sidebar zeigt korrekte Anzahl sichtbarer Cluster (z.B. "2 von 4 Clustern") | FAIL |
+| E9 | Kein-Treffer-Hinweis bei leerem Ergebnis | Alle Quellen abwählen | Hinweistext erscheint, kein leerer Hauptbereich | FAIL |
+| E10 | Keine Hardcoded-Daten | Code auf hardcodierte Cluster-Namen prüfen | Cluster-Inhalte werden aus `data/clusters.md` gelesen | FAIL |

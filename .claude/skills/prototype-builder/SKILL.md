@@ -4,33 +4,29 @@ allowed-tools: Read, Write
 
 > **Hinweis:** Verwende ausschließlich die eingebauten `Read`- und `Write`-Tools. Keine MCP-Tools.
 
-# Skill: Prototype Builder
+# Referenz: Prototyp bauen
 
-Du liest eine Spec.md und schreibst daraus eine lauffähige Streamlit-App.
+## Was ein Prototyp ist
+
+Eine lauffähige Streamlit-App, die alle UI-Komponenten der Spec implementiert. Startbar mit `streamlit run`. Keine Placeholder, keine TODOs.
 
 ## Input
 
-Der Pfad zur spec.md wird beim Aufruf übergeben (z.B. `input/case2/spec.md`).
-
-## Vorgehen
-
-1. Lies die spec.md vollständig.
-2. Identifiziere: Daten-Input (Dateipfad und Format), UI-Komponenten, Filterlogik, Sonderfälle.
-3. Schreibe eine vollständige, lauffähige `app.py` mit Streamlit.
-4. Kein Placeholder-Code, keine TODO-Kommentare — die App muss direkt mit `streamlit run` starten.
+- `spec.md` im Case-Verzeichnis
+- Datendateien in `input/[case]/data/`
 
 ## Qualitätskriterien
 
-- App startet ohne Fehler mit `streamlit run [pfad]/app.py`
+- Startet ohne Fehler mit `streamlit run [pfad]/app.py`
 - Alle UI-Komponenten aus der Spec sind implementiert
-- Daten werden aus der angegebenen Datei gelesen — keine Hardcoded-Inhalte
-- Sonderfälle (z.B. "keine Treffer") sind behandelt
-- Imports sind vollständig (kein fehlendes `import`)
+- Daten werden aus der echten Datendatei gelesen — keine hardcodierten Inhalte
+- Sonderfälle behandelt (z.B. leerer Filter → Hinweis statt leere Tabelle)
+- Imports vollständig
 - Kompatibel mit Python 3.8+ und streamlit >= 1.0
+- Nur streamlit + pandas. Kein matplotlib, kein plotly, kein altair. Für Diagramme: `st.bar_chart`, `st.line_chart` etc.
 
 ## Output
 
-Schreibe die App nach `prototype/[case]/app.py`.
-Den Case-Namen aus dem Spec-Pfad ableiten:
+`prototype/[case]/app.py` — Case-Namen aus dem Spec-Pfad ableiten:
 - `input/case1/spec.md` → `prototype/case1/app.py`
 - `input/case2/spec.md` → `prototype/case2/app.py`
