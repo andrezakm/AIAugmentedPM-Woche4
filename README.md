@@ -7,13 +7,19 @@ In dieser Woche lernst du den PM-Kernskill: ein Feature spezifizieren, Abnahmekr
 - Claude Code installiert (`npm install -g @anthropic-ai/claude-code`)
 - Claude über Anthropic-Login authentifiziert
 - Python 3.8+ installiert
-- Streamlit installiert: `pip install streamlit`
+- Streamlit installiert (siehe unten)
 
 ## Installation
 
 1. Dieses Repository klonen oder als ZIP herunterladen
 2. In das Verzeichnis wechseln: `cd Woche4SpecEval/`
-3. Claude Code starten: `claude`
+3. Streamlit installieren:
+   ```
+   python -m venv .venv && source .venv/bin/activate && pip install streamlit pandas
+   ```
+4. Claude Code starten: `claude`
+
+> **Hinweis:** Alle `streamlit run`-Befehle im aktivierten venv ausführen (`source .venv/bin/activate`). Test: `streamlit hello`
 
 ## Kurs starten
 
