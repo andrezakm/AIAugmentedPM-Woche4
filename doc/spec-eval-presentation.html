@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spec/Eval — Das PM-Pattern für die KI-Ära</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<style>
+  .reveal { font-size: 32px; }
+  .reveal h1, .reveal h2, .reveal h3 { text-transform: none; }
+  .reveal h1 { font-size: 2em; }
+  .reveal h2 { font-size: 1.5em; margin-bottom: 0.4em; }
+  .reveal h3 { font-size: 1.1em; color: #888; }
+  .reveal p { margin: 0.3em 0; }
+  .reveal .highlight { color: #4fc3f7; }
+  .reveal .warn { color: #ff8a65; }
+  .reveal .pass { color: #81c784; }
+  .reveal .fail { color: #e57373; }
+  .reveal .dim { color: #666; font-size: 0.7em; }
+  .reveal ul { list-style: none; padding: 0; margin: 0.3em 0; }
+  .reveal ul li::before { content: "→ "; color: #4fc3f7; }
+  .reveal ul li { margin-bottom: 0.3em; }
+  .reveal .flow { font-size: 1.1em; letter-spacing: 0.05em; }
+  .reveal .box { border: 2px solid #4fc3f7; border-radius: 10px; padding: 0.4em 0.8em; display: inline-block; margin: 0.2em; }
+  .reveal .box-warn { border-color: #ff8a65; }
+  .reveal .box-pass { border-color: #81c784; }
+  .reveal blockquote { border-left: 4px solid #4fc3f7; padding-left: 1em; font-style: italic; color: #aaa; margin: 0.5em 0; }
+  .reveal table { margin: 0 auto; font-size: 0.6em; }
+  .reveal table th { color: #4fc3f7; border-bottom: 2px solid #4fc3f7; }
+  .reveal table td { border-bottom: 1px solid #333; padding: 0.3em 0.7em; }
+  .reveal .subtitle { color: #888; font-size: 0.75em; margin-top: -0.3em; }
+  .reveal .spacer { height: 0.4em; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- 1: Titel -->
+<section>
+  <h1>Spec / Eval</h1>
+  <h3>Das PM-Pattern für die KI-Ära</h3>
+  <p class="dim">AI-Augmented PM — Woche 4</p>
+</section>
+
+<!-- 2: Das Problem -->
+<section>
+  <h2>Das Problem</h2>
+  <div class="spacer"></div>
+  <p class="fragment">LLMs machen einfach weiter.</p>
+  <p class="fragment">Sie fragen nicht nach.</p>
+  <p class="fragment">Sie füllen <span class="warn">deine Lücken</span> — ohne dir zu sagen, dass da welche sind.</p>
+  <div class="spacer"></div>
+  <p class="fragment dim">Das ist kein Bug. Das ist das Design.</p>
+</section>
+
+<!-- 3: Was du brauchst -->
+<section>
+  <h2>Was du brauchst</h2>
+  <div class="spacer"></div>
+  <p class="fragment"><span class="highlight">Klarheit</span> — bevor du dem System Kontrolle gibst</p>
+  <p class="fragment"><span class="highlight">Messbarkeit</span> — bevor du "fertig" sagst</p>
+  <p class="fragment"><span class="highlight">Ein Format</span> — das Mensch und Maschine lesen können</p>
+</section>
+
+<!-- 4: Spec/Eval in einem Satz -->
+<section>
+  <h2>Spec / Eval</h2>
+  <div class="spacer"></div>
+  <p class="flow">
+    <span class="box">Spec</span> beschreibt <em>was</em> gebaut wird
+  </p>
+  <div class="spacer"></div>
+  <p class="flow">
+    <span class="box box-pass">Eval</span> beschreibt <em>wann es gut genug ist</em>
+  </p>
+  <div class="spacer"></div>
+  <p class="fragment dim">Zwei Markdown-Dateien. Kein Framework. Kein Tool.</p>
+</section>
+
+<!-- 5: Grund 1 — Klarheit für dich -->
+<section>
+  <h2>1. Klarheit für dich selbst</h2>
+  <div class="spacer"></div>
+  <ul>
+    <li class="fragment">Wenn du es nicht als Spec schreiben kannst, <span class="warn">verstehst du es noch nicht</span></li>
+    <li class="fragment">Wenn du keine Eval-Kriterien formulieren kannst, <span class="warn">weißt du nicht wann du fertig bist</span></li>
+    <li class="fragment">Das LLM merkt das nicht — <span class="highlight">du musst es merken</span></li>
+  </ul>
+  <div class="spacer"></div>
+  <blockquote class="fragment">Spec/Eval ist ein Denkwerkzeug, nicht nur ein Dokument.</blockquote>
+</section>
+
+<!-- 6: Grund 2 — Funktioniert auf jeder Ebene -->
+<section>
+  <h2>2. Funktioniert auf jeder Ebene</h2>
+  <div class="spacer"></div>
+  <table>
+    <tr><th>Ebene</th><th>Spec</th><th>Eval</th></tr>
+    <tr class="fragment"><td><strong>Feature</strong></td><td>"Filterbare Cluster-Ansicht"</td><td>10 pass/fail Kriterien</td></tr>
+    <tr class="fragment"><td><strong>Produkt</strong></td><td>"Pattern-Agent für Feedback-Analyse"</td><td>Nutzer findet Top-3 Themen in &lt;2 Min</td></tr>
+    <tr class="fragment"><td><strong>Strategie</strong></td><td>"Produktisierbare KI-Agenten"</td><td>3 Kunden nutzen Agent eigenständig</td></tr>
+  </table>
+  <div class="spacer"></div>
+  <p class="fragment">Gleiche Frage auf jeder Ebene: <span class="highlight">Kann ich es beschreiben? Kann ich es messen?</span></p>
+</section>
+
+<!-- 7: Grund 3 — Brücke zum Engineering -->
+<section>
+  <h2>3. Direktes Austauschformat</h2>
+  <p class="flow fragment">
+    PM schreibt <span class="box">Spec</span> + <span class="box box-pass">Eval</span>
+  </p>
+  <p class="fragment" style="font-size:0.9em">Dev liest dieselbe Datei. Erweitert technische Details.</p>
+  <ul>
+    <li class="fragment">Spec → <span class="highlight">User Story / Ticket</span> in Linear oder Jira</li>
+    <li class="fragment">Eval → <span class="highlight">Acceptance Criteria</span> — direkt testbar</li>
+    <li class="fragment">Kein Übersetzungsschritt. Kein "was meintest du damit?"</li>
+  </ul>
+</section>
+
+<!-- 8: Das Format — Spec -->
+<section>
+  <h2>Die Spec — ein Beispiel</h2>
+  <p class="subtitle">Feedback Cluster Viewer</p>
+  <div class="spacer"></div>
+  <table>
+    <tr><td><strong>Zweck</strong></td><td>Cluster sichten und nach Quelle filtern</td></tr>
+    <tr><td><strong>Nutzer</strong></td><td>PMs, 1–2 Personen, nach Analyse-Run</td></tr>
+    <tr><td><strong>Daten</strong></td><td>clusters.md — aus dem Pattern-Agent</td></tr>
+    <tr><td><strong>UI</strong></td><td>Sidebar-Filter, Cluster-Karten, Belege-Expander</td></tr>
+    <tr><td><strong>Constraints</strong></td><td>Lokal, kein Backend, nur Lesen</td></tr>
+  </table>
+  <div class="spacer"></div>
+  <p class="fragment dim">Was, nicht Wie. Keine Zeile Code. Keine Implementierung.</p>
+</section>
+
+<!-- 9: Das Format — Eval -->
+<section>
+  <h2>Die Eval — ein Beispiel</h2>
+  <p class="subtitle">Feedback Cluster Viewer</p>
+  <div class="spacer"></div>
+  <table>
+    <tr><th>ID</th><th>Kriterium</th><th>Pass-Bedingung</th><th></th></tr>
+    <tr><td>E2</td><td>Alle 4 Cluster sichtbar</td><td>Genau 4 Karten</td><td class="pass">PASS</td></tr>
+    <tr><td>E7</td><td>Filter schränkt ein</td><td>Nur Slack-Cluster sichtbar</td><td class="pass">PASS</td></tr>
+    <tr><td>E8</td><td>Zähler aktualisiert sich</td><td>"2 von 4 Clustern"</td><td class="fail">FAIL</td></tr>
+    <tr><td>E9</td><td>Kein-Treffer-Hinweis</td><td>Hinweistext erscheint</td><td class="fail">FAIL</td></tr>
+  </table>
+  <div class="spacer"></div>
+  <p class="fragment">Jeder Punkt: <span class="highlight">eindeutig</span> pass/fail. Kein "sieht gut aus".</p>
+</section>
+
+<!-- 10: Der Workflow -->
+<section>
+  <h2>Der Workflow</h2>
+  <div class="spacer"></div>
+  <p class="flow">
+    <span class="box">Brief</span>
+    →
+    <span class="box">Spec</span>
+    →
+    <span class="box box-pass">Eval</span>
+    →
+    <span class="box box-warn">Prototyp</span>
+  </p>
+  <div class="spacer"></div>
+  <p class="fragment">Mensch prüft manuell &nbsp;→&nbsp; Agent prüft automatisch &nbsp;→&nbsp; Mensch vergleicht</p>
+  <div class="spacer"></div>
+  <p class="fragment dim">Du entscheidest. Nicht das Modell.</p>
+</section>
+
+<!-- 11: Skills im Kurs -->
+<section>
+  <h2>Wie wir das im Kurs aufsetzen</h2>
+  <p class="subtitle">Claude Code Skills</p>
+  <div class="spacer"></div>
+  <table>
+    <tr><th>Skill</th><th>Input</th><th>Output</th></tr>
+    <tr><td><code>/spec-writer</code></td><td>brief.md</td><td>spec.md</td></tr>
+    <tr><td><code>/eval-writer</code></td><td>spec.md</td><td>eval.md</td></tr>
+    <tr><td><code>/build-eval</code></td><td>brief.md</td><td>spec + eval + app.py</td></tr>
+    <tr><td><code>/eval-runner</code></td><td>eval.md + app.py</td><td>Ergebnis: PASS/FAIL/UNKLAR</td></tr>
+  </table>
+  <div class="spacer"></div>
+  <p class="fragment">Jeder Skill ist eine <span class="highlight">Markdown-Datei</span>. Kein Code. Änderbar in 2 Minuten.</p>
+</section>
+
+<!-- 12: Die Kette -->
+<section>
+  <h2>Die Kette der Kontrolle</h2>
+  <div class="spacer"></div>
+  <ul>
+    <li class="fragment"><strong>Level 1:</strong> Agent baut alles — du prüfst das Ergebnis</li>
+    <li class="fragment"><strong>Level 2:</strong> Du prüfst manuell — Eval als Checkliste</li>
+    <li class="fragment"><strong>Level 3:</strong> Agent prüft automatisch — eval-runner</li>
+  </ul>
+  <div class="spacer"></div>
+  <p class="fragment">Die Frage ist nicht "automatisch oder manuell?"</p>
+  <p class="fragment">Die Frage ist: <span class="highlight">Wem vertraust du wann — und warum?</span></p>
+</section>
+
+<!-- 13: Wo der Fehler liegt -->
+<section>
+  <h2>Wenn etwas nicht stimmt</h2>
+  <p class="flow">
+    <span class="box">Brief</span> →
+    <span class="box">Spec</span> →
+    <span class="box box-pass">Eval</span> →
+    <span class="box box-warn">Code</span>
+  </p>
+  <p class="fragment">Fix immer <span class="highlight">so früh wie möglich</span> in der Kette.</p>
+  <div class="spacer"></div>
+  <ul>
+    <li class="fragment">App zeigt Falsches? → Vielleicht ist die <span class="warn">Spec</span> falsch, nicht der Code</li>
+    <li class="fragment">Eval sagt FAIL? → Vielleicht ist das <span class="warn">Kriterium</span> schlecht formuliert</li>
+    <li class="fragment">Alles PASS aber es fühlt sich falsch an? → Der <span class="warn">Brief</span> war unklar</li>
+  </ul>
+</section>
+
+<!-- 14: PM-Skill der Zukunft -->
+<section>
+  <h2>Der PM-Skill der Zukunft</h2>
+  <div class="spacer"></div>
+  <p class="fragment">Nicht: Code schreiben</p>
+  <p class="fragment">Nicht: Prompts optimieren</p>
+  <div class="spacer"></div>
+  <p class="fragment"><span class="highlight" style="font-size:1.3em">Klar beschreiben. Messbar machen. Prüfen.</span></p>
+  <div class="spacer"></div>
+  <p class="fragment dim">Spec/Eval ist das Pattern dafür.</p>
+</section>
+
+<!-- 15: Takeaway -->
+<section>
+  <h2>Drei Dinge zum Mitnehmen</h2>
+  <div class="spacer"></div>
+  <p class="fragment"><strong>1.</strong> Wenn du es nicht spezifizieren kannst, <span class="warn">ist es nicht klar</span></p>
+  <p class="fragment"><strong>2.</strong> Wenn du es nicht evaluieren kannst, <span class="warn">weißt du nicht wann du fertig bist</span></p>
+  <p class="fragment"><strong>3.</strong> Spec + Eval = <span class="highlight">gemeinsame Sprache</span> zwischen PM, Agent und Dev</p>
+</section>
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  controls: true,
+  progress: true,
+  center: true,
+});
+</script>
+</body>
+</html>
