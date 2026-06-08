@@ -1,5 +1,5 @@
 ---
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Kurs: Woche 4 — Spec, Eval & Prototyp
