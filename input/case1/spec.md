@@ -12,7 +12,7 @@ NeoEmployee PMs sollen nach einem pattern-agent-Run die identifizierten Feedback
 
 ## Nutzer
 
-NeoEmployee PMs und Berater, 1–2 Personen, nach einem Analyse-Run. Technisches Niveau: mittel — können einen Terminalbefehl ausführen, keine Programmierkenntnisse nötig.
+NeoEmployee PMs und Berater, 1–2 Personen, nach einem Analyse-Run. Technisches Niveau: mittel — keine Programmierkenntnisse nötig.
 
 ## Daten-Input
 
@@ -39,8 +39,7 @@ NeoEmployee PMs und Berater, 1–2 Personen, nach einem Analyse-Run. Technisches
 
 ## Constraints
 
-- Kein Backend, keine Datenbank, keine API
-- Start: `streamlit run prototype/case1/app.py`
-- Läuft lokal im Browser (localhost)
+- Kein Backend, kein Server, keine Datenbank, keine API
+- Eine `app.html` + `data.js` in `prototype/case1/` — öffnet per Doppelklick im Browser (`file://`)
 - Kein Login, keine Authentifizierung
 - Kein Schreiben von Daten — nur Lesen

@@ -1,4 +1,6 @@
 ---
+name: build-eval
+description: Orchestriert Spec, Eval und Prototyp in einem Lauf aus einem Brief — wenn alle drei Artefakte in einem Schritt aus einem Feature-Brief erzeugt werden sollen.
 allowed-tools: Read, Write, Glob
 ---
 
@@ -28,25 +30,27 @@ Prüfe mit Glob ob `input/[case]/eval.md` bereits existiert.
 | ID | Kriterium | Wie testen | Pass-Bedingung | Ergebnis |
 |----|-----------|------------|----------------|----------|
 
-Jedes Kriterium eindeutig pass/fail entscheidbar. Ergebnis-Spalte wird mit FAIL vorbelegt.
+Jedes Kriterium eindeutig pass/fail entscheidbar. Ergebnis-Spalte wird mit FAIL vorbelegt — nichts gilt als bestanden, bis es geprüft ist.
 
 Verifiziere mit Glob, bevor du weitermachst.
 
-## Schritt 3: Prototyp → `prototype/[case]/app.py`
+## Schritt 3: Prototyp → `prototype/[case]/app.html` + `prototype/[case]/data.js`
 
-Lies `input/[case]/spec.md`. Schreibe vollständige, lauffähige Streamlit-App:
-- Echte Daten aus Datendatei, kein Hardcoding
+Lies `input/[case]/spec.md` und die Datendateien in `input/[case]/data/`. Schreibe:
+- `prototype/[case]/data.js` — übersetzt die Rohdaten in `window.DATA = { ... }`
+- `prototype/[case]/app.html` — EINE Datei, `<style>` und `<script>` inline, lädt `data.js` per `<script src="data.js"></script>` und liest dann `window.DATA`. Kein `fetch`, kein Netzwerk, kein Server.
+
+Anforderungen:
+- Echte Daten aus `data.js`, kein Hardcoding in `app.html`
 - Alle UI-Komponenten der Spec implementiert
 - Sonderfälle behandelt
-- Startbar mit `streamlit run`
-- Nur streamlit + pandas. Kein matplotlib, kein plotly, kein altair. Für Diagramme: `st.bar_chart`, `st.line_chart` etc.
-- Kein `@st.cache_data` — CSV direkt mit `pd.read_csv()` laden.
+- Öffnet per Doppelklick im Browser (`file://`), keine externen Abhängigkeiten (kein CDN, kein npm)
 
 Verifiziere mit Glob.
 
 ## Abschluss
 
-Alle drei Dateien vorhanden? Dann:
+Alle Dateien vorhanden (`spec.md`, `eval.md`, `app.html`, `data.js`)? Dann:
 - Pfade ausgeben
-- `streamlit run prototype/[case]/app.py`
+- Hinweis: `prototype/[case]/app.html` per Doppelklick im Browser öffnen
 - "Jetzt bist du dran — öffne die eval.md und gehe jeden Punkt manuell durch, bevor du den eval-runner startest."

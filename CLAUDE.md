@@ -19,7 +19,7 @@ NeoEmployee baut custom AI Agenten, die Mitarbeiterfähigkeiten in Unternehmen e
 
 **Für Evals:** Nur messbare Kriterien. Jeder Punkt ist eindeutig pass/fail entscheidbar. UNKLAR wenn nicht aus Code oder Output entscheidbar.
 
-**Für Prototypen:** Lauffähig mit `streamlit run`. Keine Placeholder. Daten aus Datei, nicht hardcoded.
+**Für Prototypen:** Eine self-contained `app.html` + `data.js`. Öffnet per Doppelklick im Browser. Kein Server. Keine Placeholder. Daten aus `data.js`, nicht hardcoded.
 
 ## Kurs starten
 

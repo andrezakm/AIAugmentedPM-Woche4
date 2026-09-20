@@ -1,10 +1,34 @@
 ---
+name: kurs
+description: Startet den interaktiven 10-Schritte-Kurspfad für Woche 4 (Spec, Eval, Prototyp) — der Einstiegspunkt für die gesamte Woche.
 disable-model-invocation: true
 ---
 
 # Kurs: Woche 4 — Spec, Eval & Prototyp
 
-Willkommen in Woche 4. Du lernst heute den PM-Kernskill: ein Feature spezifizieren, Abnahmekriterien definieren, einen Prototypen bauen — und ihn evaluieren. Der Kurs hat 10 Schritte. Du navigierst mit "weiter" (nächster Schritt) oder "Schritt X" (direkt springen).
+Willkommen in Woche 4. Es geht um den vielleicht wichtigsten PM-Skill überhaupt: aus einer Idee eine klare Beschreibung machen (die **Spec**), festlegen, wann sie erfüllt ist (die **Eval**), daraus einen lauffähigen Prototypen entstehen lassen und ihn dann prüfen. Nichts davon ist neu erfunden — neu ist nur, dass wir es so aufschreiben, dass ein Agent direkt danach arbeiten kann. Der Kurs hat 10 Schritte. Du navigierst mit "weiter" (nächster Schritt) oder "Schritt X" (direkt springen).
+
+## Was du davon hast
+
+**Als PM** beschreibst du ein Feature einmal so klar, dass du es nicht dreimal im Meeting erklären musst — und prüfst am Ende gegen deine eigenen, vorher notierten Kriterien statt gegen ein Bauchgefühl. Die Übergabe an Engineering wird ein Paket statt einer Diskussion.
+
+**Der zweite Aspekt: Gestaltung gehört mit hinein.** Alles, was sonst als Geschmacksfrage endet — Farben, Abstände, Zustände einer Oberfläche, ein Designsystem — lässt sich genauso aufschreiben und genauso abnehmen wie eine Funktion. Steht es in der Eval, ist "passt nicht zum Design" ein FAIL wie jedes andere.
+
+Ein kleines Beispiel dafür. Du legst fest:
+
+```
+Akzentfarbe (Häufigkeit, aktive Elemente): #1A4FFF
+Karten: 8 px abgerundete Ecken
+```
+
+und machst daraus zwei Eval-Kriterien:
+
+```
+| D1 | Akzentfarbe stimmt | Farbwert im <style> der app.html ablesen | ist #1A4FFF | FAIL |
+| D2 | Kartenform stimmt  | border-radius der Karte ablesen          | 8 px        | FAIL |
+```
+
+Prüfen heißt dann: In der `app.html` stehen Farbe und Radius im Klartext im `<style>` — ablesen, mit der Vorgabe vergleichen, PASS, FAIL oder UNKLAR setzen. Oder den eval-runner genau das tun lassen.
 
 Dieses mal gibt es zwei Durchläufe:
 - **Durchlauf 1 (jetzt)**: geführt, mit Reflexionsfragen. Du schaust zu, prüfst, verstehst.
@@ -31,17 +55,7 @@ Nach diesem Kurs kannst du:
 
 ## Voraussetzungen
 
-Streamlit muss installiert sein. Test:
-```
-streamlit hello
-```
-
-Falls nicht installiert oder Fehler:
-```
-python -m venv .venv && source .venv/bin/activate && pip install streamlit pandas
-```
-
-Danach alle `streamlit run`-Befehle im aktivierten venv ausführen.
+Keine. Kein Python, kein Server, keine Installation. Der Prototyp entsteht als eine einzelne `app.html`, die du per Doppelklick im Browser öffnest.
 
 ---
 
@@ -56,7 +70,7 @@ In Woche 3 hast du gelernt: CLAUDE.md, Skills, Agents. Heute kommen zwei neue Ko
 | `brief.md` | Feature-Idee, 1 Pager | PM | spec-writer |
 | `spec.md` | Was gebaut wird | PM (oder spec-writer) | prototype-builder |
 | `eval.md` | Wann es gut ist | PM (oder eval-writer) | eval-runner + Mensch |
-| `app.py` | Der Prototyp | prototype-builder | Mensch + eval-runner |
+| `app.html` + `data.js` | Der Prototyp | prototype-builder | Mensch + eval-runner |
 
 Der Workflow in einem Satz: Brief schreiben → Agent baut Spec, Eval, Prototyp → Mensch prüft manuell → Agent prüft automatisch → Mensch vergleicht.
 
@@ -96,6 +110,10 @@ Vergleiche Spec mit Brief:
 Vergleiche Eval mit Spec:
 - Sind alle Spec-Punkte in der Eval abgedeckt?
 - Welche Kriterien sind eindeutig pass/fail? Welche könnten "UNKLAR" werden?
+
+**Erwartungshaltung:** Zweck, Nutzer und Daten-Input sind meist fast deckungsgleich — die legt der Brief eng fest, da gibt es wenig Spielraum. Die interessanten Unterschiede stehen weiter unten: bei den UI-Komponenten im Detail, den Constraints und den Sonderfällen. Genau dort trifft eine Spec Ermessensentscheidungen, und dort lohnt der Vergleich.
+
+**Anderer Blickwinkel:** Lies die Spec einmal wie eine Übergabe an jemanden, der daraus eine Oberfläche bauen soll. Könnte er das ohne Rückfrage? Und in der Eval: Welche Kriterien fehlen, damit auch Farben, Abstände und Zustände abgenommen werden und nicht nur die Funktion?
 
 **Reflexion:** Hättest du die Spec aus dem Brief so abgeleitet? Welchen Punkt hättest du anders formuliert?
 
@@ -148,7 +166,7 @@ Sag "weiter" für Schritt 6.
 Der Skill führt alle drei Schritte durch: Spec → Eval → Prototyp.
 Beobachte was passiert. Schau in die entstehenden Dateien.
 
-Nach dem Lauf: `prototype/case1/app.py` liegt bereit.
+Nach dem Lauf: `prototype/case1/app.html` und `prototype/case1/data.js` liegen bereit.
 
 **Reflexion:** In welchem der drei Schritte wärst du am ehesten reingegangen — und warum?
 
@@ -156,20 +174,20 @@ Sag "weiter" für Schritt 7.
 
 ---
 
-## Schritt 7: Prototyp starten
+## Schritt 7: Prototyp öffnen
 
-```
-streamlit run prototype/case1/app.py
-```
+Öffne `prototype/case1/app.html` per Doppelklick im Finder. Kein Terminal, kein Befehl, kein Server.
 
-Der Browser öffnet sich. Schau dir die App an. Klicke, filter, explore.
+Schau dir die App an. Klicke, filter, explore.
 
 - Entspricht sie dem was du in der Spec gelesen hast?
 - Was fällt im ersten Moment auf — positiv und negativ?
 - Was fehlt? Was ist überraschend gut?
 
+**Anderer Blickwinkel:** Schau nicht nur, ob die Funktion der Spec entspricht, sondern auch, ob das Aussehen deiner Vorstellung entspricht — Abstände, Farben, Zustände. Halte fest, was abweicht; das wird in Schritt 8 zu einem Abnahmekriterium.
+
 **Wenn etwas nicht stimmt:**
-1. Fehlermeldung im Terminal? → Zeig sie Claude: *"Ich bekomme diesen Fehler: [Fehler]"*
+1. Fehlermeldung in der Browser-Konsole (Rechtsklick → "Untersuchen")? → Zeig sie Claude: *"Ich bekomme diesen Fehler: [Fehler]"*
 2. App läuft, aber zeigt falsches? → Notiere was du erwartet hast und was du siehst
 3. Nicht sicher ob es ein Bug ist? → Prüfe zuerst die Spec — vielleicht ist es korrekt gebaut, aber falsch spezifiziert
 
@@ -192,7 +210,7 @@ Notiere:
 
 **Wenn ein Kriterium FAIL ist — Vorgehen:**
 1. Ist die Pass-Bedingung eindeutig formuliert? → Wenn nein: Eval-Punkt korrigieren, nicht die App
-2. Ist die App eindeutig falsch? → Claude fragen: *"E7 ist FAIL — [was du siehst]. Schau dir app.py an."*
+2. Ist die App eindeutig falsch? → Claude fragen: *"E7 ist FAIL — [was du siehst]. Schau dir app.html an."*
 3. Ist es ein visuelles Problem (Layout, Farbe)? → UNKLAR setzen, nicht FAIL — das kann der eval-runner nicht beurteilen
 4. Ist der Fehler im Brief oder in der Spec entstanden? → Dort ansetzen, nicht im Code
 
@@ -206,7 +224,7 @@ Sag "weiter" für Schritt 9.
 
 ## Schritt 9: eval-runner ausführen (Level 3)
 
-> "Führe /eval-runner aus für input/case1/eval.md und prototype/case1/app.py"
+> "Führe /eval-runner aus für input/case1/eval.md und prototype/case1/app.html"
 
 Das Ergebnis landet in `output/eval_results_[TIMESTAMP].md`.
 
@@ -232,7 +250,7 @@ Jetzt machst du Case 2 mit denselben Schritten — aber du führst sie selbst du
 
 1. Lies `input/case2/brief.md` und `input/case2/data/backlog.csv`
 2. Führe /build-eval aus: > "Führe /build-eval aus für input/case2/brief.md"
-3. Starte den Prototypen: `streamlit run prototype/case2/app.py`
+3. Öffne den Prototypen: `prototype/case2/app.html` per Doppelklick im Browser
 4. Evaluiere manuell (eval.md)
 5. Führe den eval-runner aus
 6. Vergleiche

@@ -1,4 +1,6 @@
 ---
+name: eval-writer
+description: Schreibt eine Eval.md aus einer Spec.md — wenn Abnahmekriterien für ein spezifiziertes Feature formuliert werden sollen.
 allowed-tools: Read, Write
 ---
 
@@ -8,11 +10,13 @@ allowed-tools: Read, Write
 
 ## Was eine Eval ist
 
-Eine Eval ist eine Tabelle mit 8–12 pass/fail-Kriterien. Sie prüft ob der Prototyp die Spec erfüllt. Die Ergebnis-Spalte bleibt leer — die füllt der Mensch (oder der eval-runner).
+Eine Eval ist eine Tabelle mit 8–12 pass/fail-Kriterien. Sie prüft ob der Prototyp die Spec erfüllt. Die Ergebnis-Spalte wird mit **FAIL** vorbelegt — nichts gilt als bestanden, bis es geprüft ist. PASS (oder UNKLAR) setzt der Mensch bzw. der eval-runner erst beim Prüfen.
 
 ## Input
 
-- `spec.md` im Case-Verzeichnis
+- `spec.md` im Case-Verzeichnis (die Spezifikation, gegen die du die Kriterien schreibst)
+
+**Wichtig — nicht spicken:** Leite die Kriterien ausschließlich aus der `spec.md` ab. **Lies KEINE vorhandene `eval.md`** im Case-Verzeichnis — das ist die Referenzlösung zum späteren Vergleich.
 
 ## Format
 
@@ -39,4 +43,4 @@ PASS = Bedingung ist erfüllt. FAIL = nicht erfüllt. UNKLAR = nicht aus Code od
 
 ## Output
 
-`input/[case]/eval.md` — im gleichen Verzeichnis wie die `spec.md`.
+`input/[case]/eval_generated.md` — ein eigenständiger Entwurf neben der `spec.md`. **Überschreibe niemals eine vorhandene `eval.md`** (das ist die Referenzlösung). Wer etwas übernehmen will, kopiert es von Hand aus `eval_generated.md` in `eval.md`.
