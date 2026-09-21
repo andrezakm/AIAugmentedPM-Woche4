@@ -61,6 +61,36 @@ window.DATA = {
 
 Kein `fetch`, kein Netzwerk-Request — der Browser blockiert `fetch()` auf lokale Dateien unter `file://`, ein `<script src="...">`-Tag dagegen nicht. Deshalb der Umweg über `data.js` statt einer JSON-Datei.
 
+## Pflicht: der Vorschau-Fallback
+
+Wird `app.html` in einem eingebauten Vorschaufenster geöffnet (Claude Code, IDE-Preview), liegt die Seite unter einer `data:`-Adresse statt unter `file://`. Eine `data:`-Adresse ist kein Ort, sondern der Text der Seite — es gibt kein Verzeichnis daneben, aus dem `data.js` geladen werden könnte. `window.DATA` bleibt dann leer.
+
+Das ist kein Fehler der App, aber es erschreckt jeden, der es sieht. Deshalb bekommt **jede** generierte `app.html` diesen Fallback, direkt zu Beginn des Render-Skripts:
+
+```html
+<script src="data.js"></script>
+<script>
+  var root = document.getElementById('app');
+  if (!window.DATA) {
+    var inPreview = location.protocol === 'data:' || location.protocol === 'about:';
+    root.innerHTML =
+      '<div style="max-width:52ch;margin:3rem auto;padding:1.25rem 1.5rem;' +
+      'border:1px solid #d0d0d0;border-radius:8px;font:16px/1.5 system-ui,sans-serif">' +
+      '<strong>Diese Ansicht zeigt die Seite ohne Daten.</strong><br><br>' +
+      (inPreview
+        ? 'Sie wurde in einem eingebauten Vorschaufenster geöffnet. Dort kann eine Seite keine Nachbardateien laden, deshalb fehlt data.js.'
+        : 'Die Datei data.js wurde nicht geladen — sie fehlt, liegt nicht im selben Ordner oder enthält einen Fehler.') +
+      '<br><br>Öffne <strong>app.html</strong> per Doppelklick im Finder (Windows: Doppelklick im Explorer). ' +
+      'Dann liegt die Seite unter einer file-Adresse, data.js wird geladen, und alles ist da.' +
+      '</div>';
+  } else {
+    // ab hier die normale Darstellung aus window.DATA
+  }
+</script>
+```
+
+Die Formulierung ist bewusst eine Anleitung und keine Fehlermeldung. Kein „Daten konnten nicht geladen werden", kein rotes Ausrufezeichen.
+
 ## Qualitätskriterien
 
 - `app.html` öffnet per Doppelklick im Browser ohne Konsolenfehler
@@ -69,6 +99,7 @@ Kein `fetch`, kein Netzwerk-Request — der Browser blockiert `fetch()` auf loka
 - Sonderfälle behandelt (z.B. leerer Filter → Hinweis statt leere Ansicht)
 - Kein Server, kein Backend, keine externen Abhängigkeiten (kein CDN, kein npm, kein Build-Schritt)
 - `data.js` enthält valides JavaScript, das ohne Fehler ausgeführt wird
+- Der Vorschau-Fallback ist eingebaut und erklärt, was zu tun ist, statt einen Fehler zu melden
 
 ## Output
 

@@ -20,7 +20,9 @@ Beim Aufruf werden Pfade übergeben:
 ## Vorgehen
 
 1. Lies `eval.md`, `app.html` und `data.js` vollständig.
-2. Öffne `app.html` im Browser — Doppelklick im Finder genügt — und prüfe, ob sie ohne Konsolenfehler lädt und Inhalt anzeigt.
+2. Öffne `app.html` in einem **echten Browser** unter einer `file://`-Adresse — Doppelklick im Finder genügt — und prüfe, ob sie ohne Konsolenfehler lädt und Inhalt anzeigt.
+
+   **Wichtig:** Ein eingebautes Vorschaufenster ist kein gültiger Test. Dort liegt die Seite unter einer `data:`-Adresse, kann `data.js` nicht laden und zeigt darum den Vorschau-Hinweis statt der Daten. Steht in der Adresszeile `data:` oder siehst du den Hinweis „Diese Ansicht zeigt die Seite ohne Daten", dann hast du die Umgebung getestet und nicht die App. In dem Fall: **kein FAIL setzen.** Beurteile E1 aus dem Code (lädt `app.html` die `data.js` per Skript-Tag, ist die `data.js` valide, gibt es den Fallback?) und schreibe in die Begründung dazu, wie geprüft wurde.
 3. Gehe jeden Eval-Punkt durch.
 4. Entscheide für jeden Punkt:
    - **PASS** — aus Code oder angezeigtem Verhalten eindeutig erkennbar dass das Kriterium erfüllt ist
@@ -31,6 +33,7 @@ Beim Aufruf werden Pfade übergeben:
 ## Qualitätskriterien
 
 - E1 ("app.html öffnet im Browser ohne Konsolenfehler") wird tatsächlich geprüft — nicht nur angenommen
+- E1 wird nie aufgrund eines Vorschaufensters auf FAIL gesetzt; die Begründung sagt immer, wie geprüft wurde
 - Keine Urteile über Dinge die nur situativ beim jeweiligen Öffnen sichtbar wären und nicht aus Code oder Verhalten nachvollziehbar sind
 - UNKLAR ist kein Ausweichen — nur wenn Code und angezeigtes Verhalten wirklich keine Aussage erlauben
 - Begründungen sind kurz und konkret (1-2 Sätze, Verweis auf Code-Stelle wenn möglich)

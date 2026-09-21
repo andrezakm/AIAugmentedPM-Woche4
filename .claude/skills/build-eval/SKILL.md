@@ -45,6 +45,7 @@ Anforderungen:
 - Alle UI-Komponenten der Spec implementiert
 - Sonderfälle behandelt
 - Öffnet per Doppelklick im Browser (`file://`), keine externen Abhängigkeiten (kein CDN, kein npm)
+- Enthält den Vorschau-Fallback aus dem prototype-builder: Fehlt `window.DATA`, erscheint eine Anleitung („Öffne app.html per Doppelklick im Finder"), keine Fehlermeldung
 
 Verifiziere mit Glob.
 

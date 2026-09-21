@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feedback Cluster Viewer</title>
+  <style>
+    :root {
+      --bg: #f4f5f7;
+      --surface: #ffffff;
+      --border: #d8dce3;
+      --text: #1d2433;
+      --muted: #566175;
+      --accent: #2b59c3;
+      --error-bg: #fdecea;
+      --error-border: #f0b4ad;
+      --error-text: #7a1f14;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; }
+
+    [hidden] { display: none !important; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    /* Seitenleiste */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 24px 20px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+    }
+
+    .filter { margin: 0; padding: 0; border: 0; min-width: 0; }
+    .filter legend { padding: 0; margin-bottom: 8px; font-weight: 600; }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      cursor: pointer;
+    }
+    .option input { width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
+
+    .counter {
+      margin: 20px 0 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    /* Hauptbereich */
+    .content { padding: 24px 32px 48px; max-width: 880px; }
+    .content h1 { margin: 0; font-size: 1.5rem; line-height: 1.25; }
+    .page-meta { margin: 4px 0 24px; color: var(--muted); font-size: 0.9rem; }
+
+    .card {
+      margin: 0 0 16px;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-wrap: anywhere;
+    }
+    .card-title { margin: 0 0 8px; font-size: 1.15rem; line-height: 1.3; }
+    .card-frequency { margin: 0 0 8px; color: var(--muted); font-size: 0.9rem; }
+    .card-frequency strong { color: var(--text); }
+    .card-summary { margin: 0 0 14px; }
+
+    .evidence { padding-top: 12px; border-top: 1px solid var(--border); }
+    .evidence > summary { cursor: pointer; font-weight: 600; }
+    .evidence-list {
+      display: grid;
+      gap: 14px;
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .quote { margin: 0; }
+    .quote blockquote {
+      margin: 0;
+      padding-left: 12px;
+      border-left: 3px solid var(--border);
+    }
+    .quote figcaption { margin: 4px 0 0 15px; color: var(--muted); font-size: 0.85rem; }
+
+    .empty {
+      margin: 0;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+    }
+    .empty:empty { display: none; }
+
+    .error {
+      margin: 0;
+      padding: 14px 18px;
+      background: var(--error-bg);
+      border: 1px solid var(--error-border);
+      border-radius: var(--radius);
+      color: var(--error-text);
+    }
+
+    summary:focus-visible,
+    .option input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 720px) {
+      .layout { grid-template-columns: minmax(0, 1fr); }
+      .sidebar {
+        position: static;
+        height: auto;
+        padding: 16px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .options { display: flex; flex-wrap: wrap; gap: 0 20px; }
+      .content { padding: 20px 16px 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Filter">
+      <fieldset class="filter">
+        <legend>Nach Quelle filtern</legend>
+        <div class="options" id="source-options"></div>
+      </fieldset>
+      <p class="counter" id="counter" aria-live="polite"></p>
+    </aside>
+
+    <main class="content">
+      <h1 id="page-title"></h1>
+      <p class="page-meta" id="page-meta"></p>
+      <p class="error" id="load-error" role="alert" hidden></p>
+      <div id="cluster-list"></div>
+      <p class="empty" id="empty" aria-live="polite"></p>
+    </main>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    (() => {
+      "use strict";
+
+      const data = window.DATA;
+      const $ = (id) => document.getElementById(id);
+
+      // Sonderfall: data.js fehlt oder ist unbrauchbar
+      if (!data || !Array.isArray(data.sources) || !Array.isArray(data.clusters)) {
+        document.querySelector(".sidebar").hidden = true;
+        $("load-error").textContent =
+          "Die Daten konnten nicht geladen werden. Bitte prüfen, ob data.js im selben Ordner wie app.html liegt.";
+        $("load-error").hidden = false;
+        return;
+      }
+
+      const el = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+
+      const meta = data.meta || {};
+      if (meta.title) $("page-title").textContent = meta.title;
+      if (meta.created) $("page-meta").textContent = "Erstellt: " + meta.created;
+
+      // Seitenleiste: eine Checkbox pro Quelle, standardmäßig alle ausgewählt
+      const optionsEl = $("source-options");
+      data.sources.forEach((source) => {
+        const input = el("input");
+        input.type = "checkbox";
+        input.value = source.id;
+        input.checked = true;
+        const label = el("label", "option");
+        label.append(input, el("span", null, source.label));
+        optionsEl.append(label);
+      });
+
+      // Clusterkarte: Name, Häufigkeit, Zusammenfassung, darunter aufklappbare Belege
+      const buildCard = (cluster) => {
+        const card = el("article", "card");
+        card.append(el("h2", "card-title", cluster.name));
+
+        const frequency = el("p", "card-frequency");
+        frequency.append(el("strong", null, "Häufigkeit: "), cluster.frequency);
+        card.append(frequency);
+
+        card.append(el("p", "card-summary", cluster.summary));
+
+        const evidence = cluster.evidence || [];
+        if (evidence.length > 0) {
+          const details = el("details", "evidence");
+          details.append(el("summary", null, "Belege"));
+          const list = el("ul", "evidence-list");
+          evidence.forEach((item) => {
+            const quote = el("figure", "quote");
+            quote.append(
+              el("blockquote", null, `„${item.text}“`),
+              el("figcaption", null, `— ${item.source}`)
+            );
+            const li = el("li");
+            li.append(quote);
+            list.append(li);
+          });
+          details.append(list);
+          card.append(details);
+        }
+        return card;
+      };
+
+      // Karten einmal in Dateireihenfolge aufbauen. Der Filter blendet sie nur ein und aus,
+      // damit aufgeklappte Belege beim Filtern offen bleiben.
+      const listEl = $("cluster-list");
+      const entries = data.clusters.map((cluster) => {
+        const card = buildCard(cluster);
+        listEl.append(card);
+        const types = new Set((cluster.evidence || []).map((item) => item.sourceType));
+        return { card, types };
+      });
+
+      // Ein Cluster ist sichtbar, wenn mindestens ein Beleg aus einer gewählten Quelle stammt
+      const applyFilter = () => {
+        const selected = new Set(
+          Array.from(optionsEl.querySelectorAll("input:checked"), (input) => input.value)
+        );
+        let visible = 0;
+        entries.forEach(({ card, types }) => {
+          const show = [...types].some((type) => selected.has(type));
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        $("counter").textContent = `${visible} von ${entries.length} Clustern`;
+        $("empty").textContent = visible === 0 ? "Keine Cluster für die gewählten Quellen." : "";
+      };
+
+      optionsEl.addEventListener("change", applyFilter);
+      applyFilter();
+    })();
+  </script>
+</body>
+</html>

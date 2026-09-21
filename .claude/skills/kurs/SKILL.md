@@ -178,6 +178,8 @@ Sag "weiter" für Schritt 7.
 
 Öffne `prototype/case1/app.html` per Doppelklick im Finder. Kein Terminal, kein Befehl, kein Server.
 
+> **Wichtig, sonst suchst du einen Fehler, den es nicht gibt:** Öffne die Datei wirklich im Browser, nicht in einem eingebauten Vorschaufenster. In so einer Vorschau steht die Seite unter einer `data:`-Adresse statt unter `file://` — sie kann dort keine Nachbardateien laden und zeigt deshalb statt der Daten den Hinweis „Diese Ansicht zeigt die Seite ohne Daten". Das ist die Vorschau, nicht die App.
+
 Schau dir die App an. Klicke, filter, explore.
 
 - Entspricht sie dem was du in der Spec gelesen hast?
