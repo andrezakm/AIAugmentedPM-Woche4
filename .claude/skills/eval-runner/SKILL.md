@@ -1,7 +1,7 @@
 ---
 name: eval-runner
 description: Prüft einen gebauten Prototyp gegen eine Eval.md und liefert PASS/FAIL/UNKLAR pro Kriterium — wenn ein Prototyp gegen seine Abnahmekriterien bewertet werden soll.
-allowed-tools: Read, Write
+allowed-tools: Read, Write, Bash
 ---
 
 > **Hinweis:** Verwende ausschließlich die eingebauten `Read`- und `Write`-Tools. Keine MCP-Tools.
@@ -20,9 +20,19 @@ Beim Aufruf werden Pfade übergeben:
 ## Vorgehen
 
 1. Lies `eval.md`, `app.html` und `data.js` vollständig.
-2. Öffne `app.html` in einem **echten Browser** unter einer `file://`-Adresse — Doppelklick im Finder genügt — und prüfe, ob sie ohne Konsolenfehler lädt und Inhalt anzeigt.
+2. **Prüfe, ob die Seite wirklich lädt.** Am zuverlässigsten mit Chrome im Headless-Modus gegen die `file://`-Adresse:
 
-   **Wichtig:** Ein eingebautes Vorschaufenster ist kein gültiger Test. Dort liegt die Seite unter einer `data:`-Adresse, kann `data.js` nicht laden und zeigt darum den Vorschau-Hinweis statt der Daten. Steht in der Adresszeile `data:` oder siehst du den Hinweis „Diese Ansicht zeigt die Seite ohne Daten", dann hast du die Umgebung getestet und nicht die App. In dem Fall: **kein FAIL setzen.** Beurteile E1 aus dem Code (lädt `app.html` die `data.js` per Skript-Tag, ist die `data.js` valide, gibt es den Fallback?) und schreibe in die Begründung dazu, wie geprüft wurde.
+   ```bash
+   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+     --headless=new --disable-gpu --dump-dom --virtual-time-budget=2000 \
+     "file://$PWD/prototype/case1/app.html" > /tmp/dom.html
+   ```
+
+   Dann im Ergebnis nachsehen. Steht im Container echter Inhalt aus `data.js`, ist E1 erfüllt. Steht dort der Hinweis „Diese Ansicht zeigt die Seite ohne Daten", wurde `data.js` nicht geladen — bei einer echten `file://`-Adresse liegt das an den Dateien und nicht an der Umgebung, dann ist E1 FAIL.
+
+   Ist kein Chrome vorhanden, beurteile E1 aus dem Code: Lädt `app.html` die `data.js` per Skript-Tag? Ist `data.js` valides JavaScript? Gibt es den Fallback? Schreib in die Begründung, auf welchem Weg du geprüft hast.
+
+   **Kein gültiger Test ist ein eingebautes Vorschaufenster.** Dort liegt die Seite unter einer `data:`-Adresse, kann keine Nachbardateien laden und zeigt darum den Vorschau-Hinweis. Das prüft die Umgebung und nicht die App — in dem Fall **kein FAIL setzen**, sondern aus dem Code beurteilen und den Weg vermerken.
 3. Gehe jeden Eval-Punkt durch.
 4. Entscheide für jeden Punkt:
    - **PASS** — aus Code oder angezeigtem Verhalten eindeutig erkennbar dass das Kriterium erfüllt ist
@@ -64,4 +74,4 @@ PASS: X / FAIL: X / UNKLAR: X
 
 ## Output
 
-Schreibe das Ergebnis nach `output/eval_results_RUN_ID.md` — wobei RUN_ID der aktuelle Timestamp ist (Format: YYYYMMDD_HHMM).
+Schreibe das Ergebnis nach `output/eval_results_RUN_ID.md` — wobei RUN_ID der aktuelle Timestamp ist (Format: YYYYMMDD_HHMM). Gibt es die Datei schon, weil in derselben Minute bereits ein Lauf stattfand, häng eine Laufnummer an: `output/eval_results_20260921_1430_2.md`. Nie eine vorhandene Ergebnisdatei überschreiben.

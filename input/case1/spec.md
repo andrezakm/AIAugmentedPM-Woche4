@@ -43,3 +43,4 @@ NeoEmployee PMs und Berater, 1–2 Personen, nach einem Analyse-Run. Technisches
 - Eine `app.html` + `data.js` in `prototype/case1/` — öffnet per Doppelklick im Browser (`file://`)
 - Kein Login, keine Authentifizierung
 - Kein Schreiben von Daten — nur Lesen
+- Der Abschnitt „Sonstiges / Einzelfälle" aus `clusters.md` wird nicht angezeigt — die App zeigt nur echte Cluster

@@ -12,9 +12,6 @@
       --text: #1d2433;
       --muted: #566175;
       --accent: #2b59c3;
-      --error-bg: #fdecea;
-      --error-border: #f0b4ad;
-      --error-text: #7a1f14;
       --radius: 6px;
     }
 
@@ -111,15 +108,6 @@
     }
     .empty:empty { display: none; }
 
-    .error {
-      margin: 0;
-      padding: 14px 18px;
-      background: var(--error-bg);
-      border: 1px solid var(--error-border);
-      border-radius: var(--radius);
-      color: var(--error-text);
-    }
-
     summary:focus-visible,
     .option input:focus-visible {
       outline: 2px solid var(--accent);
@@ -141,22 +129,23 @@
   </style>
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar" aria-label="Filter">
-      <fieldset class="filter">
-        <legend>Nach Quelle filtern</legend>
-        <div class="options" id="source-options"></div>
-      </fieldset>
-      <p class="counter" id="counter" aria-live="polite"></p>
-    </aside>
+  <div id="app">
+    <div class="layout">
+      <aside class="sidebar" aria-label="Filter">
+        <fieldset class="filter">
+          <legend>Nach Quelle filtern</legend>
+          <div class="options" id="source-options"></div>
+        </fieldset>
+        <p class="counter" id="counter" aria-live="polite"></p>
+      </aside>
 
-    <main class="content">
-      <h1 id="page-title"></h1>
-      <p class="page-meta" id="page-meta"></p>
-      <p class="error" id="load-error" role="alert" hidden></p>
-      <div id="cluster-list"></div>
-      <p class="empty" id="empty" aria-live="polite"></p>
-    </main>
+      <main class="content">
+        <h1 id="page-title"></h1>
+        <p class="page-meta" id="page-meta"></p>
+        <div id="cluster-list"></div>
+        <p class="empty" id="empty" aria-live="polite"></p>
+      </main>
+    </div>
   </div>
 
   <script src="data.js"></script>
@@ -164,15 +153,24 @@
     (() => {
       "use strict";
 
+      const root = document.getElementById("app");
       const data = window.DATA;
       const $ = (id) => document.getElementById(id);
 
-      // Sonderfall: data.js fehlt oder ist unbrauchbar
+      // Vorschau-Fallback: In einem eingebauten Vorschaufenster liegt die Seite unter einer
+      // data:-Adresse und kann data.js nicht laden. Dann erscheint eine Anleitung statt einer
+      // Fehlermeldung.
       if (!data || !Array.isArray(data.sources) || !Array.isArray(data.clusters)) {
-        document.querySelector(".sidebar").hidden = true;
-        $("load-error").textContent =
-          "Die Daten konnten nicht geladen werden. Bitte prüfen, ob data.js im selben Ordner wie app.html liegt.";
-        $("load-error").hidden = false;
+        const inPreview = location.protocol === "data:" || location.protocol === "about:";
+        root.innerHTML = `
+          <div style="max-width:52ch;margin:3rem auto;padding:1.25rem 1.5rem;border:1px solid #d0d0d0;border-radius:8px;font:16px/1.5 system-ui,sans-serif">
+            <strong>Diese Ansicht zeigt die Seite ohne Daten.</strong><br><br>
+            ${inPreview
+              ? "Sie wurde in einem eingebauten Vorschaufenster geöffnet. Dort kann eine Seite keine Nachbardateien laden, deshalb fehlt data.js."
+              : "Die Datei data.js wurde nicht geladen — sie fehlt, liegt nicht im selben Ordner oder enthält einen Fehler."}
+            <br><br>Öffne <strong>app.html</strong> per Doppelklick im Finder (Windows: Doppelklick im Explorer).
+            Dann liegt die Seite unter einer file-Adresse, data.js wird geladen, und alles ist da.
+          </div>`;
         return;
       }
 

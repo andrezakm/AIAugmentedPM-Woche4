@@ -99,6 +99,7 @@ Die Formulierung ist bewusst eine Anleitung und keine Fehlermeldung. Kein „Dat
 - Sonderfälle behandelt (z.B. leerer Filter → Hinweis statt leere Ansicht)
 - Kein Server, kein Backend, keine externen Abhängigkeiten (kein CDN, kein npm, kein Build-Schritt)
 - `data.js` enthält valides JavaScript, das ohne Fehler ausgeführt wird
+- CSV-Quellen werden korrekt gelesen: Felder können in Anführungszeichen stehen und dann Kommas enthalten. Nicht naiv am Komma trennen, sonst verrutschen die Spalten
 - Der Vorschau-Fallback ist eingebaut und erklärt, was zu tun ist, statt einen Fehler zu melden
 
 ## Output

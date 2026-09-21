@@ -42,6 +42,7 @@ Lies `input/[case]/spec.md` und die Datendateien in `input/[case]/data/`. Schrei
 
 Anforderungen:
 - Echte Daten aus `data.js`, kein Hardcoding in `app.html`
+- Beim Übersetzen einer CSV: Felder können in Anführungszeichen stehen und Kommas enthalten (bei `backlog.csv` betrifft das die meisten Zeilen). Nicht naiv am Komma trennen
 - Alle UI-Komponenten der Spec implementiert
 - Sonderfälle behandelt
 - Öffnet per Doppelklick im Browser (`file://`), keine externen Abhängigkeiten (kein CDN, kein npm)
